@@ -6,7 +6,7 @@ from langchain.prompts import PromptTemplate
 # --- App Title and Description ---
 st.title("🤖 Your Personal AI Assistant")
 st.write("This application leverages the power of Google's Generative AI to answer your questions on any topic.")
-st.write("Loaded secrets:", dict(st.secrets))
+
 
 # Get API key from environment variables or Streamlit secrets
 API_KEY = os.getenv("API_KEY") or st.secrets.get("API_KEY")
