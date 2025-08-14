@@ -1,3 +1,4 @@
+import os
 import streamlit as st
 import google.generativeai as genai
 from langchain.prompts import PromptTemplate
@@ -5,29 +6,21 @@ from langchain.prompts import PromptTemplate
 # --- App Title and Description ---
 st.title("🤖 Your Personal AI Assistant")
 st.write("This application leverages the power of Google's Generative AI to answer your questions on any topic.")
+st.write("Loaded secrets:", dict(st.secrets))
 
-import os
-import streamlit as st
-
-# Try environment variable first, then Streamlit secrets
+# Get API key from environment variables or Streamlit secrets
 API_KEY = os.getenv("API_KEY") or st.secrets.get("API_KEY")
 
+# If no key is found, stop the app
 if not API_KEY:
     st.error("API_KEY is missing. Please set it in environment variables or Streamlit Secrets.")
     st.stop()
 
-
-# import os
-
-# API_KEY = os.environ.get("API_KEY")
-# if not API_KEY:
-#     raise ValueError("API_KEY environment variable not set.")
-
-if API_KEY:
-    try:
-        genai.configure(api_key=API_KEY)
-    except Exception as e:
-        st.sidebar.error(f"Failed to configure API key: {e}")
+# Configure Google Generative AI
+try:
+    genai.configure(api_key=API_KEY)
+except Exception as e:
+    st.sidebar.error(f"Failed to configure API key: {e}")
 
 # --- Prompt Template Definition ---
 template = """
